@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="page">
+
+<h1>Available Opportunities</h1>
+
+<div class="service-grid">
+
+{% for job in jobs %}
+
+<div class="service-card">
+
+<h3>{{ job.title }}</h3>
+
+<p><b>Location:</b> {{ job.location }}</p>
+
+<p><b>Type:</b> {{ job.type }}</p>
+
+<a href="/career" class="btn-primary">Apply</a>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</section>
+
+{% endblock %}

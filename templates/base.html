@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Knotwork Staffing Solutions</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+<div class="logo">
+Knotwork Staffing Solutions
+</div>
+
+<nav>
+<a href="/">Home</a>
+<a href="/about">About</a>
+<a href="/services">Services</a>
+<a href="/jobs">Jobs</a>
+<a href="/career">Career</a>
+<a href="/contact">Contact</a>
+</nav>
+
+</header>
+
+
+{% block content %}{% endblock %}
+
+
+<footer>
+
+<p>
+© {{ current_year }} Knotwork Staffing Solutions. All Rights Reserved.
+</p>
+
+</footer>
+
+
+<!-- PARTICLES SCRIPT -->
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+
+<script>
+
+particlesJS("particles",{
+
+particles:{
+
+number:{value:80},
+
+size:{value:3},
+
+move:{speed:2},
+
+line_linked:{enable:true}
+
+}
+
+});
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="page">
+
+<h1>Join Our Talent Network</h1>
+
+<p>
+Submit your details and resume to explore career opportunities
+with our partner companies.
+</p>
+
+<form class="career-form" method="POST" action="/submit-career" enctype="multipart/form-data">
+
+<div class="form-grid">
+
+<input type="text" name="name" placeholder="Full Name" required>
+
+<input type="email" name="email" placeholder="Email Address" required>
+
+<input type="tel" name="phone" placeholder="Phone Number">
+
+<input type="text" name="city" placeholder="City / Address">
+
+<input type="text" name="qualification" placeholder="Highest Qualification">
+
+<input type="text" name="experience" placeholder="Years of Experience">
+
+</div>
+
+<textarea name="about" placeholder="Tell us about yourself"></textarea>
+
+<div class="resume-upload">
+
+<h3>Upload Resume</h3>
+
+<input type="file" name="resume" required>
+
+</div>
+
+<div class="form-submit">
+
+<button type="submit" class="btn-primary">
+Submit Application
+</button>
+
+</div>
+
+</form>
+
+</section>
+
+{% endblock %}
