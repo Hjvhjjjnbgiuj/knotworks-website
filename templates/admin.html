@@ -35,7 +35,11 @@ padding:8px;
 <td>{{c.phone}}</td>
 <td>{{c.education}}</td>
 <td>{{c.experience}}</td>
-<td>{{c.resume}}</td>
+<td>
+<a href="/uploads/{{c.resume}}" target="_blank">
+Download
+</a>
+</td>
 </tr>
 {% endfor %}
 

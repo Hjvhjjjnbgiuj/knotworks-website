@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 import os
 
@@ -104,6 +104,14 @@ def career():
 @app.route("/thankyou")
 def thankyou():
     return render_template("thankyou.html")
+
+
+# ---------------------------
+# Resume Download Route
+# ---------------------------
+@app.route("/uploads/<filename>")
+def uploaded_file(filename):
+    return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
 
 # ---------------------------
