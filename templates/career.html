@@ -2,53 +2,37 @@
 
 {% block content %}
 
-<section class="page">
+<div class="page">
 
-<h1>Join Our Talent Network</h1>
+<h2>Apply for Job</h2>
 
-<p>
-Submit your details and resume to explore career opportunities
-with our partner companies.
-</p>
+<form method="POST" enctype="multipart/form-data">
 
-<form class="career-form" method="POST" action="/submit-career" enctype="multipart/form-data">
+<label>Name</label><br>
+<input type="text" name="name" placeholder="Your Name" required><br><br>
 
-<div class="form-grid">
+<label>Email</label><br>
+<input type="email" name="email" placeholder="Your Email" required><br><br>
 
-<input type="text" name="name" placeholder="Full Name" required>
+<label>Phone</label><br>
+<input type="text" name="phone" placeholder="Your Phone Number" required><br><br>
 
-<input type="email" name="email" placeholder="Email Address" required>
+<label>Education</label><br>
+<input type="text" name="education" placeholder="Your Education" required><br><br>
 
-<input type="tel" name="phone" placeholder="Phone Number">
+<label>Experience</label><br>
+<input type="text" name="experience" placeholder="Your Experience" required><br><br>
 
-<input type="text" name="city" placeholder="City / Address">
+<label>About Yourself</label><br>
+<textarea name="about" placeholder="Tell us about yourself" required></textarea><br><br>
 
-<input type="text" name="qualification" placeholder="Highest Qualification">
+<label>Upload Resume</label><br>
+<input type="file" name="resume" required><br><br>
 
-<input type="text" name="experience" placeholder="Years of Experience">
-
-</div>
-
-<textarea name="about" placeholder="Tell us about yourself"></textarea>
-
-<div class="resume-upload">
-
-<h3>Upload Resume</h3>
-
-<input type="file" name="resume" required>
-
-</div>
-
-<div class="form-submit">
-
-<button type="submit" class="btn-primary">
-Submit Application
-</button>
-
-</div>
+<button class="btn-primary">Submit Application</button>
 
 </form>
 
-</section>
+</div>
 
 {% endblock %}
