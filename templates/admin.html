@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Dashboard</title>
+<style>
+table{
+width:100%;
+border-collapse:collapse;
+}
+th,td{
+border:1px solid #ccc;
+padding:8px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Candidate Applications</h2>
+
+<table>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Education</th>
+<th>Experience</th>
+<th>Resume</th>
+</tr>
+
+{% for c in candidates %}
+<tr>
+<td>{{c.name}}</td>
+<td>{{c.email}}</td>
+<td>{{c.phone}}</td>
+<td>{{c.education}}</td>
+<td>{{c.experience}}</td>
+<td>{{c.resume}}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+<br>
+
+<a href="/logout">Logout</a>
+
+</body>
+</html>
