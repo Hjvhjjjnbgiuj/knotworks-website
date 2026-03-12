@@ -1,13 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 import os
 
 app = Flask(__name__)
 
-# secret key for login sessions
+# Secret key for login session
 app.secret_key = "knotwork_secret_key"
 
-# database
+# Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///candidates.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -17,7 +17,9 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 db = SQLAlchemy(app)
 
 
-# Candidate Model
+# ---------------------------
+# Candidate Database Model
+# ---------------------------
 class Candidate(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
@@ -29,37 +31,37 @@ class Candidate(db.Model):
     resume = db.Column(db.String(200))
 
 
-# Home
+# ---------------------------
+# Website Pages
+# ---------------------------
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
-# About
 @app.route("/about")
 def about():
     return render_template("about.html")
 
 
-# Services
 @app.route("/services")
 def services():
     return render_template("services.html")
 
 
-# Jobs
 @app.route("/jobs")
 def jobs():
     return render_template("jobs.html")
 
 
-# Contact
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
 
 
-# Career / Resume upload
+# ---------------------------
+# Career / Resume Upload
+# ---------------------------
 @app.route("/career", methods=["GET", "POST"])
 def career():
 
@@ -75,8 +77,8 @@ def career():
         file = request.files["resume"]
         filename = file.filename
 
-        path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-        file.save(path)
+        save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+        file.save(save_path)
 
         candidate = Candidate(
             name=name,
@@ -96,16 +98,14 @@ def career():
     return render_template("career.html")
 
 
-# Thankyou page
 @app.route("/thankyou")
 def thankyou():
     return render_template("thankyou.html")
 
 
-# --------------------
-# ADMIN LOGIN SYSTEM
-# --------------------
-
+# ---------------------------
+# Admin Login System
+# ---------------------------
 ADMIN_USER = "admin"
 ADMIN_PASS = "knotwork123"
 
@@ -119,7 +119,6 @@ def login():
         password = request.form["password"]
 
         if username == ADMIN_USER and password == ADMIN_PASS:
-
             session["admin"] = True
             return redirect("/admin")
 
@@ -128,7 +127,6 @@ def login():
 
 @app.route("/logout")
 def logout():
-
     session.pop("admin", None)
     return redirect("/login")
 
@@ -144,12 +142,16 @@ def admin():
     return render_template("admin.html", candidates=candidates)
 
 
-# create database
+# ---------------------------
+# Create database automatically
+# ---------------------------
 with app.app_context():
     db.create_all()
 
 
-# render server start
+# ---------------------------
+# Start server (Render compatible)
+# ---------------------------
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
