@@ -111,28 +111,28 @@ def career():
         db.session.commit()
 
         # ---------------------------
-        # SEND EMAIL ALERT
+        # EMAIL ALERT DISABLED
         # ---------------------------
 
-        msg = Message(
-            "New Candidate Application - KnotWork",
-            sender="knotwork@zohomail.in",
-            recipients=["knotwork@zohomail.in"]
-        )
+        # msg = Message(
+        #     "New Candidate Application - KnotWork",
+        #     sender="knotwork@zohomail.in",
+        #     recipients=["knotwork@zohomail.in"]
+        # )
 
-        msg.body = f"""
-New candidate applied on KnotWork website
+        # msg.body = f"""
+# New candidate applied on KnotWork website
 
-Name: {name}
-Email: {email}
-Phone: {phone}
-Education: {education}
-Experience: {experience}
+# Name: {name}
+# Email: {email}
+# Phone: {phone}
+# Education: {education}
+# Experience: {experience}
 
-Login to admin panel to download resume.
-"""
+# Login to admin panel to download resume.
+# """
 
-        mail.send(msg)
+        # mail.send(msg)
 
         return redirect("/thankyou")
 
