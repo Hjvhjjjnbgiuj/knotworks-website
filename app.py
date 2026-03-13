@@ -5,20 +5,29 @@ import os
 
 app = Flask(__name__)
 
-# Secret key
+# ---------------------------
+# SECRET KEY
+# ---------------------------
+
 app.secret_key = "knotwork_secret_key"
 
-# Database
+# ---------------------------
+# DATABASE
+# ---------------------------
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///candidates.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Upload folder
+# ---------------------------
+# UPLOAD FOLDER
+# ---------------------------
+
 UPLOAD_FOLDER = "uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # ---------------------------
-# EMAIL CONFIGURATION
+# ZOHO EMAIL CONFIG
 # ---------------------------
 
 app.config['MAIL_SERVER'] = 'smtp.zoho.in'
@@ -37,13 +46,18 @@ db = SQLAlchemy(app)
 # ---------------------------
 
 class Candidate(db.Model):
+
     id = db.Column(db.Integer, primary_key=True)
+
     name = db.Column(db.String(100))
     email = db.Column(db.String(100))
     phone = db.Column(db.String(20))
+
     education = db.Column(db.String(200))
     experience = db.Column(db.String(200))
+
     about = db.Column(db.Text)
+
     resume = db.Column(db.String(200))
 
 
@@ -77,10 +91,10 @@ def contact():
 
 
 # ---------------------------
-# CAREER / RESUME UPLOAD
+# CAREER PAGE
 # ---------------------------
 
-@app.route("/career", methods=["GET", "POST"])
+@app.route("/career", methods=["GET","POST"])
 def career():
 
     if request.method == "POST":
@@ -88,6 +102,7 @@ def career():
         name = request.form["name"]
         email = request.form["email"]
         phone = request.form["phone"]
+
         education = request.form["education"]
         experience = request.form["experience"]
         about = request.form["about"]
@@ -95,8 +110,9 @@ def career():
         file = request.files["resume"]
         filename = file.filename
 
-        save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-        file.save(save_path)
+        path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+
+        file.save(path)
 
         candidate = Candidate(
             name=name,
@@ -112,28 +128,35 @@ def career():
         db.session.commit()
 
         # ---------------------------
-        # EMAIL ALERT DISABLED
+        # SEND EMAIL NOTIFICATION
         # ---------------------------
 
-        # msg = Message(
-        #     "New Candidate Application - KnotWork",
-        #     sender="knotwork@zohomail.in",
-        #     recipients=["knotwork@zohomail.in"]
-        # )
+        try:
 
-        # msg.body = f"""
-# New candidate applied on KnotWork website
+            msg = Message(
+                "New Candidate Application - KnotWork",
+                sender="knotwork@zohomail.in",
+                recipients=["knotwork@zohomail.in"]
+            )
 
-# Name: {name}
-# Email: {email}
-# Phone: {phone}
-# Education: {education}
-# Experience: {experience}
+            msg.body = f"""
+New candidate applied on KnotWork website
 
-# Login to admin panel to download resume.
-# """
+Name: {name}
+Email: {email}
+Phone: {phone}
 
-        # mail.send(msg)
+Education: {education}
+Experience: {experience}
+
+Login to admin panel to download resume.
+"""
+
+            mail.send(msg)
+
+        except Exception as e:
+
+            print("Email sending failed:", e)
 
         return redirect("/thankyou")
 
@@ -151,18 +174,19 @@ def thankyou():
 
 @app.route("/uploads/<filename>")
 def uploaded_file(filename):
+
     return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
 
 # ---------------------------
-# ADMIN LOGIN SYSTEM
+# ADMIN LOGIN
 # ---------------------------
 
 ADMIN_USER = "admin"
 ADMIN_PASS = "knotwork123"
 
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login", methods=["GET","POST"])
 def login():
 
     if request.method == "POST":
@@ -173,9 +197,11 @@ def login():
         if username == ADMIN_USER and password == ADMIN_PASS:
 
             session["admin"] = True
+
             return redirect("/admin")
 
         else:
+
             return "Invalid Login"
 
     return render_template("login.html")
@@ -185,6 +211,7 @@ def login():
 def logout():
 
     session.clear()
+
     return redirect("/login")
 
 
@@ -192,6 +219,7 @@ def logout():
 def admin():
 
     if "admin" not in session:
+
         return redirect("/login")
 
     candidates = Candidate.query.all()
@@ -204,6 +232,7 @@ def admin():
 # ---------------------------
 
 with app.app_context():
+
     db.create_all()
 
 
@@ -212,5 +241,7 @@ with app.app_context():
 # ---------------------------
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
+
+    port = int(os.environ.get("PORT",10000))
+
     app.run(host="0.0.0.0", port=port)
