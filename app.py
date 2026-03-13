@@ -21,9 +21,10 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # EMAIL CONFIGURATION
 # ---------------------------
 
-app.config['MAIL_SERVER'] = 'smtp.zoho.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_SERVER'] = 'smtp.zoho.in'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USERNAME'] = 'knotwork@zohomail.in'
 app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
 
