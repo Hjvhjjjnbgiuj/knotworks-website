@@ -1,28 +1,40 @@
 from flask import Flask, render_template, request, redirect, session, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail, Message
 import os
 
 app = Flask(__name__)
 
-# Secret key for login session
+# Secret key
 app.secret_key = "knotwork_secret_key"
 
-# Database configuration
+# Database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///candidates.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# Upload folder
 UPLOAD_FOLDER = "uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-
-# Ensure uploads folder exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+# ---------------------------
+# EMAIL CONFIGURATION
+# ---------------------------
+
+app.config['MAIL_SERVER'] = 'smtp.zoho.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'knotwork@zohomail.in'
+app.config['MAIL_PASSWORD'] = 'YOUR_ZOHO_EMAIL_PASSWORD'
+
+mail = Mail(app)
 
 db = SQLAlchemy(app)
 
+# ---------------------------
+# DATABASE MODEL
+# ---------------------------
 
-# ---------------------------
-# Candidate Database Model
-# ---------------------------
 class Candidate(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
@@ -35,8 +47,9 @@ class Candidate(db.Model):
 
 
 # ---------------------------
-# Website Pages
+# WEBSITE PAGES
 # ---------------------------
+
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -63,8 +76,9 @@ def contact():
 
 
 # ---------------------------
-# Career / Resume Upload
+# CAREER / RESUME UPLOAD
 # ---------------------------
+
 @app.route("/career", methods=["GET", "POST"])
 def career():
 
@@ -96,6 +110,30 @@ def career():
         db.session.add(candidate)
         db.session.commit()
 
+        # ---------------------------
+        # SEND EMAIL ALERT
+        # ---------------------------
+
+        msg = Message(
+            "New Candidate Application - KnotWork",
+            sender="knotwork@zohomail.in",
+            recipients=["knotwork@zohomail.in"]
+        )
+
+        msg.body = f"""
+New candidate applied on KnotWork website
+
+Name: {name}
+Email: {email}
+Phone: {phone}
+Education: {education}
+Experience: {experience}
+
+Login to admin panel to download resume.
+"""
+
+        mail.send(msg)
+
         return redirect("/thankyou")
 
     return render_template("career.html")
@@ -107,16 +145,18 @@ def thankyou():
 
 
 # ---------------------------
-# Resume Download Route
+# RESUME DOWNLOAD
 # ---------------------------
+
 @app.route("/uploads/<filename>")
 def uploaded_file(filename):
     return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
 
 # ---------------------------
-# Admin Login System
+# ADMIN LOGIN SYSTEM
 # ---------------------------
+
 ADMIN_USER = "admin"
 ADMIN_PASS = "knotwork123"
 
@@ -130,22 +170,27 @@ def login():
         password = request.form["password"]
 
         if username == ADMIN_USER and password == ADMIN_PASS:
+
             session["admin"] = True
             return redirect("/admin")
+
+        else:
+            return "Invalid Login"
 
     return render_template("login.html")
 
 
 @app.route("/logout")
 def logout():
-    session.pop("admin", None)
+
+    session.clear()
     return redirect("/login")
 
 
 @app.route("/admin")
 def admin():
 
-    if not session.get("admin"):
+    if "admin" not in session:
         return redirect("/login")
 
     candidates = Candidate.query.all()
@@ -154,15 +199,17 @@ def admin():
 
 
 # ---------------------------
-# Create database automatically
+# CREATE DATABASE
 # ---------------------------
+
 with app.app_context():
     db.create_all()
 
 
 # ---------------------------
-# Start server (Render compatible)
+# START SERVER
 # ---------------------------
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
