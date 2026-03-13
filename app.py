@@ -25,7 +25,7 @@ app.config['MAIL_SERVER'] = 'smtp.zoho.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'knotwork@zohomail.in'
-app.config['MAIL_PASSWORD'] = 'YOUR_ZOHO_EMAIL_PASSWORD'
+app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
 
 mail = Mail(app)
 
