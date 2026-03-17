@@ -1,193 +1,70 @@
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Knotwork Staffing Solutions</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
 
-body{
-font-family:'Segoe UI',sans-serif;
-background:#f4f6f9;
-color:#1e293b;
-}
+<body>
 
-/* NAVBAR */
+<!-- NAVBAR -->
+<div class="navbar">
+<div class="logo">Knotwork Staffing Solutions</div>
 
-.navbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 80px;
-background:#0f172a;
-color:white;
-position:sticky;
-top:0;
-z-index:1000;
-}
+<nav>
+<a href="/">Home</a>
+<a href="/about">About</a>
+<a href="/services">Services</a>
+<a href="/jobs">Jobs</a>
+<a href="/career">Career</a>
+<a href="/contact">Contact</a>
+</nav>
+</div>
 
-.logo{
-font-size:26px;
-font-weight:800;
-}
+<!-- HERO -->
+<section class="hero">
 
-.navbar nav a{
-color:white;
-text-decoration:none;
-margin-left:25px;
-transition:0.3s;
-}
+<div class="hero-content">
+<h1 class="fade-up">Building High-Performance Teams</h1>
 
-.navbar nav a:hover{
-color:#14b8a6;
-}
+<p class="fade-up delay">
+Knotwork Staffing Solutions helps organizations connect with the right talent
+and empowers freshers to discover the right opportunities.
+</p>
+</div>
 
+</section>
 
-/* HERO */
+<!-- SERVICES -->
+<section class="services">
 
-.hero{
-height:90vh;
+<h2 class="fade-up">Our Services</h2>
 
-background:
-linear-gradient(rgba(15,23,42,0.75),rgba(15,23,42,0.75)),
-url("https://images.unsplash.com/photo-1552664730-d307ca884978");
+<div class="service-grid">
 
-background-size:cover;
-background-position:center;
+<div class="service-card fade-up">
+<h3>Talent Acquisition</h3>
+<p>End-to-end hiring support to find the best candidates.</p>
+</div>
 
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-color:white;
-padding:20px;
-}
+<div class="service-card fade-up delay">
+<h3>Staff Augmentation</h3>
+<p>Flexible hiring for short-term and project-based work.</p>
+</div>
 
-.hero h1{
-font-size:52px;
-margin-bottom:20px;
-}
+<div class="service-card fade-up delay2">
+<h3>Leadership Hiring</h3>
+<p>Finding leaders who can drive long-term success.</p>
+</div>
 
-.hero p{
-font-size:18px;
-margin-bottom:25px;
-max-width:600px;
-margin-left:auto;
-margin-right:auto;
-}
+</div>
 
-.btn-primary{
-background:#14b8a6;
-padding:12px 30px;
-border-radius:6px;
-color:white;
-text-decoration:none;
-display:inline-block;
-transition:0.3s;
-}
+</section>
 
-.btn-primary:hover{
-background:#0d9488;
-}
+<!-- FOOTER -->
+<footer>
+<p>© 2026 Knotwork Staffing Solutions. All rights reserved.</p>
+</footer>
 
-
-/* SERVICES */
-
-.services{
-padding:120px 20px 100px;
-text-align:center;
-background:#f9fafb;
-}
-
-.services h2{
-font-size:38px;
-margin-bottom:10px;
-}
-
-.section-subtitle{
-color:#64748b;
-margin-bottom:50px;
-}
-
-.service-grid{
-display:flex;
-gap:30px;
-max-width:1100px;
-margin:auto;
-}
-
-.service-card{
-flex:1;
-background:white;
-padding:40px;
-border-radius:14px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-transition:0.3s;
-}
-
-.service-card .icon{
-font-size:40px;
-margin-bottom:20px;
-}
-
-.service-card h3{
-margin-bottom:10px;
-}
-
-.service-card p{
-color:#64748b;
-}
-
-.service-card:hover{
-transform:translateY(-10px);
-box-shadow:0 20px 40px rgba(0,0,0,0.12);
-}
-
-
-/* CTA */
-
-.cta{
-background:#0f172a;
-color:white;
-text-align:center;
-padding:80px 20px;
-}
-
-.cta h2{
-font-size:32px;
-margin-bottom:10px;
-}
-
-.cta p{
-margin-bottom:20px;
-color:#cbd5f5;
-}
-
-
-/* FOOTER */
-
-footer{
-background:#020617;
-color:white;
-text-align:center;
-padding:20px;
-}
-
-
-/* MOBILE */
-
-@media(max-width:900px){
-
-.navbar{
-flex-direction:column;
-gap:10px;
-padding:20px;
-}
-
-.service-grid{
-flex-direction:column;
-}
-
-.hero h1{
-font-size:32px;
-}
-
-}
+</body>
+</html>
